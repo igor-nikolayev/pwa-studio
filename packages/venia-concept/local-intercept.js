@@ -17,6 +17,15 @@
  * or modify functionality from its dependencies.
  */
 
-function localIntercept() {}
+function localIntercept(targets) {
+    targets.of("@magento/venia-ui").routes.tap((routes) => {
+        routes.push({
+            name: "MyDemoPage",
+            pattern: "/demo-page/",
+            path: require.resolve("./src/components/DemoPage/DemoPage.js"),
+        });
+        return routes;
+    });
+}
 
 module.exports = localIntercept;

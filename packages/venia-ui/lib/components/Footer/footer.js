@@ -20,7 +20,6 @@ const Footer = props => {
     const { copyrightText } = talonProps;
     const { formatMessage } = useIntl();
     const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
-
     const linkGroups = Array.from(links, ([groupKey, linkProps]) => {
         const linkElements = Array.from(linkProps, ([text, pathInfo]) => {
             let path = pathInfo;
@@ -58,6 +57,7 @@ const Footer = props => {
     return (
         <footer data-cy="Footer-root" className={classes.root}>
             <div className={classes.links}>
+                <Link to={'/demo-page/'}>Demo Page</Link>
                 {linkGroups}
                 <div className={classes.callout}>
                     <span
