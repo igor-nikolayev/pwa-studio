@@ -12,6 +12,9 @@ import defaultClasses from './footer.module.css';
 import { DEFAULT_LINKS, LOREM_IPSUM } from './sampleData';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faBehance, faFacebook, faGoogle, faSkype, faTwitter} from '@fortawesome/free-brands-svg-icons'
+
 const Footer = props => {
     const { links } = props;
     const classes = useStyle(defaultClasses, props.classes);
@@ -80,14 +83,21 @@ const Footer = props => {
                     </p>
                     <ul className={classes.socialLinks}>
                         <li>
-                            <Instagram size={20} />
+                            <FontAwesomeIcon icon={faBehance} width={20} height={20} />
                         </li>
                         <li>
-                            <Facebook size={20} />
+                            <FontAwesomeIcon icon={faFacebook} width={20} height={20} />
                         </li>
                         <li>
-                            <Twitter size={20} />
+                            <FontAwesomeIcon icon={faGoogle} width={20} height={20} />
                         </li>
+                        <li>
+                            <FontAwesomeIcon icon={faSkype} width={20} height={20} />
+                        </li>
+                        <li>
+                            <FontAwesomeIcon icon={faTwitter} width={20} height={20} />
+                        </li>
+
                     </ul>
                 </div>
                 <Newsletter />
