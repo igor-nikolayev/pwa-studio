@@ -138,3 +138,7 @@
     height: var(--height);
     width: var(--width);
 }
+
+.customLink {
+    color: var(--venia-global-color-footer-text);
+}

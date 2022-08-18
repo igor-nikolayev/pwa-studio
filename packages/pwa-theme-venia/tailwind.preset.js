@@ -86,7 +86,7 @@ const extend = {
         textInput: '0 0 100%'
     },
     fontFamily: {
-        sans: ['Muli', 'sans-serif'],
+        sans: ['var(--venia-global-fontFamily-poppins)', 'sans-serif'],
         serif: ['Source Serif Pro', 'serif']
     },
     fontSize: {
