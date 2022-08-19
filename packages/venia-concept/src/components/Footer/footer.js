@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react';
-import { Facebook, Instagram, Twitter } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { shape, string } from 'prop-types';
 import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
+import { Facebook, Instagram, Twitter } from 'react-feather';
+import { useStyle } from '@magento/venia-ui/lib/classify';
 
-import Logo from '../Logo';
-import Newsletter from '../Newsletter';
-import { useStyle } from '../../classify';
-import defaultClasses from './footer.module.css';
-import { DEFAULT_LINKS, LOREM_IPSUM } from './sampleData';
-import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.module.css';
+import { DEFAULT_LINKS, LOREM_IPSUM } from "@magento/venia-ui/lib/components/Footer/sampleData";
+import Newsletter from "@magento/venia-ui/lib/components/Newsletter";
+import resourceUrl from "@magento/peregrine/lib/util/makeUrl";
+import Logo from "@magento/venia-ui/lib/components/Logo";
 
 const Footer = props => {
     const { links } = props;
@@ -57,6 +57,7 @@ const Footer = props => {
     return (
         <footer data-cy="Footer-root" className={classes.root}>
             <div className={classes.links}>
+                <Link to={'/demo-page/'}>Demo Page</Link>
                 {linkGroups}
                 <div className={classes.callout}>
                     <span
