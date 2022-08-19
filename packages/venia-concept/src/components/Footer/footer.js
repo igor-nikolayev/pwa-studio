@@ -3,7 +3,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { shape, string } from 'prop-types';
 import { useFooter } from '@magento/peregrine/lib/talons/Footer/useFooter';
-import { Facebook, Instagram, Twitter } from 'react-feather';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 
 import defaultClasses from './footer.module.css';
@@ -11,6 +10,9 @@ import { DEFAULT_LINKS, LOREM_IPSUM } from "@magento/venia-ui/lib/components/Foo
 import Newsletter from "@magento/venia-ui/lib/components/Newsletter";
 import resourceUrl from "@magento/peregrine/lib/util/makeUrl";
 import Logo from "@magento/venia-ui/lib/components/Logo";
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBehance, faFacebook, faGoogle, faSkype, faTwitter} from "@fortawesome/free-brands-svg-icons";
 
 const Footer = props => {
     const { links } = props;
@@ -80,13 +82,19 @@ const Footer = props => {
                     </p>
                     <ul className={classes.socialLinks}>
                         <li>
-                            <Instagram size={20} />
+                            <FontAwesomeIcon icon={faBehance} width={20} height={20} />
                         </li>
                         <li>
-                            <Facebook size={20} />
+                            <FontAwesomeIcon icon={faFacebook} width={20} height={20} />
                         </li>
                         <li>
-                            <Twitter size={20} />
+                            <FontAwesomeIcon icon={faGoogle} width={20} height={20} />
+                        </li>
+                        <li>
+                            <FontAwesomeIcon icon={faSkype} width={20} height={20} />
+                        </li>
+                        <li>
+                            <FontAwesomeIcon icon={faTwitter} width={20} height={20} />
                         </li>
                     </ul>
                 </div>
