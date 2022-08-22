@@ -108,7 +108,7 @@ const contentTypesConfig = {
     },
     slider: {
         configAggregator: sliderConfigAggregator,
-        component: React.lazy(() => import('./ContentTypes/Slider')),
+        component: React.lazy(() => import('../../venia-concept/src/components/Slider')),
         componentShimmer: SliderShimmer
     },
     // Slide is just a banner wrapped inside a slider

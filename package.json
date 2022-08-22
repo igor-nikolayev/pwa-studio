@@ -50,7 +50,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "caniuse-lite": "~1.0.30001335"
+    "caniuse-lite": "~1.0.30001335",
+    "swiper": "^8.3.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "~7.4.4",
