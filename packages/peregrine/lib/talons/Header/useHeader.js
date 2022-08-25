@@ -9,6 +9,7 @@ const STORE_NAME_QUERY = gql`
         # eslint-disable-next-line @graphql-eslint/require-id-when-available
         storeConfig {
             header_logo_src
+            store_code
             id
             logo_alt
             logo_height
