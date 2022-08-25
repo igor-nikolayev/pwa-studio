@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from 'react';
+import React, {Fragment, Suspense, useEffect, useRef} from 'react';
 import { shape, string } from 'prop-types';
 import { Link, Route } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import { useHeader } from '@magento/peregrine/lib/talons/Header/useHeader';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 
 import { useStyle } from '@magento/venia-ui/lib/classify';
-import defaultClasses from '@magento/venia-ui/lib/components/Header/header.module.css';
+import defaultClasses from './header.module.css';
 import StoreSwitcher from '@magento/venia-ui/lib/components/Header/storeSwitcher';
 import CurrencySwitcher from '@magento/venia-ui/lib/components/Header/currencySwitcher';
 import MegaMenu from '@magento/venia-ui/lib/components/MegaMenu';
@@ -54,7 +54,29 @@ const Header = props => {
 
     const { formatMessage } = useIntl();
     const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
-    const logoExists = !!logoData?.storeConfig?.header_logo_src
+    const logoExists = !!logoData?.storeConfig?.header_logo_src;
+    const header = useRef(null);
+
+    useEffect(()=>{
+        const options = {
+            root: null,
+            threshold: 0,
+        };
+
+        const callback = function(entries) {
+            entries.forEach(entry => {
+                if(!entry.isIntersecting){
+                    header.current.classList.add(classes.transparent, 'top-0', 'sticky')
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(callback, options);
+
+        if(header) {
+            observer.observe(header.current);
+        }
+    }, [header])
 
     return (
         <Fragment>
@@ -64,7 +86,7 @@ const Header = props => {
                     <CurrencySwitcher />
                 </div>
             </div>
-            <header className={rootClass} data-cy="Header-root">
+            <header ref={header} className={rootClass} data-cy="Header-root">
                 <div className={classes.toolbar}>
                     <div className={classes.primaryActions}>
                         <NavTrigger />
