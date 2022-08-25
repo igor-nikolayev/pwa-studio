@@ -33,7 +33,6 @@ const Header = props => {
     } = useHeader();
     const classes = useStyle(defaultClasses, props.classes);
     const rootClass = isSearchOpen ? classes.open : classes.closed;
-    const logo = logoData.storeConfig
 
     const searchBarFallback = (
         <div className={classes.searchFallback} ref={searchRef}>
@@ -55,6 +54,7 @@ const Header = props => {
 
     const { formatMessage } = useIntl();
     const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
+    const logoExists = !!logoData?.storeConfig?.header_logo_src
 
     return (
         <Fragment>
@@ -79,7 +79,10 @@ const Header = props => {
                         className={classes.logoContainer}
                         data-cy="Header-logoContainer"
                     >
-                        <Logo logo={logo} />
+                        {logoExists ? (
+                              <Logo logo={logoData.storeConfig} />
+                            ) : null
+                        }
                     </Link>
                     <MegaMenu />
                     <div className={classes.secondaryActions}>

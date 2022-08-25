@@ -1,9 +1,15 @@
 import React from 'react'
 
 export default function Logo(props) {
-    const { logo } = props;
-    const src = process.env.MAGENTO_BACKEND_URL + 'media/logo/' + logo.header_logo_src
+    const {header_logo_src: src, logo_alt: alt, logo_width: width, logo_height: height} = props.logo
+    const imageSrc = process.env.MAGENTO_BACKEND_URL + 'media/logo/' + src
+
     return (
-        <img src={src} alt={logo.logo_alt} width={logo.logo_width} height={logo.logo_height}/>
+        <img
+            src={imageSrc}
+            alt={alt}
+            width={width}
+            height={height}
+        />
     )
 }
