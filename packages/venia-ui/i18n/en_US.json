@@ -340,6 +340,7 @@
     "product.outOfStock": "Out-of-stock",
     "product.outOfStockTryAgain": "This Product is currently out of stock. Please try again later.",
     "product.price": " ea.",
+    "product.brandLabel": "Brand: {value}",
     "product.removeFromCart": "Remove from cart",
     "product.removeFromFavorites": "Remove from favorites",
     "product.saveForLater": "Save for later",

@@ -16,6 +16,8 @@ export const ProductsFragment = gql`
             id
             uid
             name
+            brand
+            product_brand
             price_range {
                 maximum_price {
                     final_price {

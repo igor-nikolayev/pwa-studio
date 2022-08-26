@@ -18,6 +18,8 @@ export const ProductDetailsFragment = gql`
         }
         id
         uid
+        brand
+        product_brand
         # eslint-disable-next-line @graphql-eslint/require-id-when-available
         media_gallery_entries {
             uid
