@@ -360,6 +360,7 @@
   "productFullDetail.errorUnknown": "Could not add item to cart. Please check required options and try again.",
   "productFullDetail.productDescription": "Product Description",
   "productFullDetail.details": "Details",
+  "productFullDetail.success": "Vous avez ajouté {name} à votre panier",
   "productFullDetail.unavailableProduct": "This product is currently unavailable for purchase.",
   "productImageCarousel.previousButtonAriaLabel": "Previous Image",
   "productImageCarousel.nextButtonAriaLabel": "Next Image",
