@@ -2,6 +2,7 @@
     composes: content-start from global;
     composes: grid from global;
     composes: gap-y-2xs from global;
+    position: relative;
 }
 
 .images {

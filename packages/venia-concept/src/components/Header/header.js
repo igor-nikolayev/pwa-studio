@@ -55,7 +55,7 @@ const Header = props => {
     const { formatMessage } = useIntl();
     const title = formatMessage({ id: 'logo.title', defaultMessage: 'Venia' });
     const logoExists = !!logoData?.storeConfig?.header_logo_src;
-    const header = useRef(null);
+    const headerRef = useRef(null);
 
     useEffect(()=>{
         const options = {
@@ -65,18 +65,18 @@ const Header = props => {
 
         const callback = function(entries) {
             entries.forEach(entry => {
-                if(!entry.isIntersecting){
-                    header.current.classList.add(classes.transparent, 'top-0', 'sticky')
+                if(headerRef.current && !entry.isIntersecting){
+                    headerRef.current.classList.add(classes.transparent, 'top-0', 'sticky')
                 }
             });
         };
 
         const observer = new IntersectionObserver(callback, options);
 
-        if(header) {
-            observer.observe(header.current);
+        if(headerRef.current) {
+            observer.observe(headerRef.current);
         }
-    }, [header])
+    }, [headerRef])
 
     return (
         <Fragment>
@@ -86,7 +86,7 @@ const Header = props => {
                     <CurrencySwitcher />
                 </div>
             </div>
-            <header ref={header} className={rootClass} data-cy="Header-root">
+            <header ref={headerRef} className={rootClass} data-cy="Header-root">
                 <div className={classes.toolbar}>
                     <div className={classes.primaryActions}>
                         <NavTrigger />
