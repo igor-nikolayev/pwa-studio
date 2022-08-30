@@ -50,6 +50,11 @@ export const useAccountMenuItems = props => {
             name: 'Account Information',
             id: 'accountMenu.accountInfoLink',
             url: '/account-information'
+        },
+        {
+            id: 'accountMenu.commentsPage',
+            name: 'Comments Page',
+            url: '/comments'
         }
     ];
 

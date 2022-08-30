@@ -19,11 +19,18 @@
 
 function localIntercept(targets) {
     targets.of("@magento/venia-ui").routes.tap((routes) => {
-        routes.push({
-            name: "MyDemoPage",
-            pattern: "/demo-page/",
-            path: require.resolve("./src/components/DemoPage/DemoPage.js"),
-        });
+        routes.push(
+            {
+                name: "MyDemoPage",
+                pattern: "/demo-page/",
+                path: require.resolve("./src/components/DemoPage/DemoPage.js"),
+            },
+            {
+                name: 'Comments Page',
+                pattern: '/comments',
+                path: require.resolve('./src/components/CommentsPage'),
+
+            });
         return routes;
     });
 }
