@@ -6,17 +6,3 @@
         'actions'
         'items';
 }
-
-.items {
-    composes: gap-xs from global;
-    composes: grid from global;
-    composes: mb-3 from global;
-    grid-area: items;
-    grid-template-columns: repeat(3, 1fr);
-}
-
-@media (max-width: 639px) {
-    .items {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}

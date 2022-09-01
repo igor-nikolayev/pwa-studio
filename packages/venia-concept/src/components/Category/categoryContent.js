@@ -1,11 +1,15 @@
-import React, { Fragment, Suspense, useMemo, useRef } from 'react';
+import React, {Fragment, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { array, number, shape, string } from 'prop-types';
 
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faList, faTh} from "@fortawesome/free-solid-svg-icons";
+
 import { useIsInViewport } from '@magento/peregrine/lib/hooks/useIsInViewport';
 import { useCategoryContent } from '@magento/peregrine/lib/talons/RootComponents/Category';
-
 import { useStyle } from '@magento/venia-ui/lib/classify';
+import { useHistory, useLocation } from 'react-router-dom';
+
 import Breadcrumbs from '@magento/venia-ui/lib/components/Breadcrumbs';
 import FilterModalOpenButton, {
     FilterModalOpenButtonShimmer
@@ -20,7 +24,7 @@ import Shimmer from '@magento/venia-ui/lib/components/Shimmer';
 import SortedByContainer, {
     SortedByContainerShimmer
 } from '@magento/venia-ui/lib/components/SortedByContainer';
-import defaultClasses from '@magento/venia-ui/lib/RootComponents/Category/category.module.css';
+import defaultClasses from './category.module.css';
 import NoProductsFound from '@magento/venia-ui/lib/RootComponents/Category/NoProductsFound';
 
 const FilterModal = React.lazy(() => import('@magento/venia-ui/lib/components/FilterModal'));
@@ -56,6 +60,25 @@ const CategoryContent = props => {
     } = talonProps;
 
     const sidebarRef = useRef(null);
+    const sectionRef = useRef(null);
+    const location = useLocation();
+    const history = useHistory();
+    const { pathname, search } = location;
+    const urlParams = new URLSearchParams(search);
+    const [galleryView, setGalleryView]= useState(urlParams.get('view') || 'grid');
+
+    useEffect(() => {
+        if (galleryView === 'list') {
+            sectionRef.current.classList.add(classes.galleryList)
+            urlParams.set('view', 'list')
+        } else {
+            sectionRef.current.classList.remove(classes.galleryList)
+            urlParams.set('view', 'grid')
+        }
+
+        history.push(`${pathname}?${urlParams.toString()}`)
+    }, [galleryView])
+
     const classes = useStyle(defaultClasses, props.classes);
     const shouldRenderSidebarContent = useIsInViewport({
         elementRef: sidebarRef
@@ -122,7 +145,7 @@ const CategoryContent = props => {
         }
 
         const gallery = totalPagesFromData ? (
-            <Gallery items={items} />
+            <Gallery items={items} classes={classes}/>
         ) : (
             <GalleryShimmer items={items} />
         );
@@ -133,7 +156,7 @@ const CategoryContent = props => {
 
         return (
             <Fragment>
-                <section className={classes.gallery}>{gallery}</section>
+                <section className={classes.gallery} ref={sectionRef}>{gallery}</section>
                 <div className={classes.pagination}>{pagination}</div>
             </Fragment>
         );
@@ -179,6 +202,20 @@ const CategoryContent = props => {
                             >
                                 {categoryResultsHeading}
                             </div>
+                            <div className={classes.viewButtons}>
+                                <FontAwesomeIcon
+                                    className={`${classes.viewButton} ${galleryView ==='grid' && classes.disabled }`}
+                                    cursor={'pointer'}
+                                    icon={faTh}
+                                    onClick={()=> setGalleryView( 'grid')}
+                                />
+                                <FontAwesomeIcon
+                                    className={`${classes.viewButton} ${galleryView ==='list' && classes.disabled }`}
+                                    cursor={'pointer'}
+                                    icon={faList}
+                                    onClick={()=> setGalleryView('list')}
+                                />
+                            </div>
                             <div className={classes.headerButtons}>
                                 {maybeFilterButtons}
                                 {maybeSortButton}
@@ -208,7 +245,10 @@ CategoryContent.propTypes = {
         categoryContent: string,
         heading: string,
         categoryInfo: string,
-        headerButtons: string
+        headerButtons: string,
+        viewButton: string,
+        viewButtons: string,
+        galleryList: string
     }),
     // sortProps contains the following structure:
     // [{sortDirection: string, sortAttribute: string, sortText: string},

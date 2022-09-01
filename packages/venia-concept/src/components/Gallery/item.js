@@ -90,7 +90,7 @@ const GalleryItem = props => {
     return (
         <div
             data-cy="GalleryItem-root"
-            className={classes.root}
+            className={classes.categoryItem}
             aria-live="polite"
             aria-busy="false"
             onMouseEnter={() => setShowQuickViewButton(true)}
@@ -166,7 +166,8 @@ GalleryItem.propTypes = {
         images: string,
         name: string,
         price: string,
-        root: string
+        root: string,
+        categoryItem: string
     }),
     item: shape({
         id: number.isRequired,
