@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLazyQuery, useQuery } from '@apollo/client';
 
 import mergeOperations from '../../../util/shallowMerge';
 import { useAppContext } from '../../../context/app';
+import { usePagination } from '../../../hooks/usePagination';
+import { useScrollTopOnChange } from '../../../hooks/useScrollTopOnChange';
 import { useSort } from '../../../hooks/useSort';
 import {
     getFiltersFromSearch,
@@ -40,20 +42,29 @@ export const useCategory = props => {
     } = props;
 
     const operations = mergeOperations(DEFAULT_OPERATIONS, props.operations);
-    const {getCategoryQuery, getFilterInputsQuery } = operations;
-    const [page, setPage] = useState(1);
-    const [categoryProductsItems, setCategoryProductsItems] = useState([]);
+    const { getCategoryQuery, getFilterInputsQuery } = operations;
 
     const { data: pageSizeData } = useQuery(getPageSize, {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
     });
     const pageSize = pageSizeData && pageSizeData.storeConfig.grid_per_page;
+
+    const [paginationValues, paginationApi] = usePagination();
+    const { currentPage, totalPages } = paginationValues;
+    const { setCurrentPage, setTotalPages } = paginationApi;
+
     const sortProps = useSort({ sortFromSearch: false });
     const [currentSort] = sortProps;
 
     // Keep track of the sort criteria so we can tell when they change.
     const previousSort = useRef(currentSort);
+
+    const pageControl = {
+        currentPage,
+        setPage: setCurrentPage,
+        totalPages
+    };
 
     const [
         ,
@@ -128,7 +139,7 @@ export const useCategory = props => {
 
         runQuery({
             variables: {
-                currentPage: 1,
+                currentPage: Number(currentPage),
                 id: id,
                 filters: newFilters,
                 pageSize: Number(pageSize),
@@ -136,6 +147,7 @@ export const useCategory = props => {
             }
         });
     }, [
+        currentPage,
         currentSort,
         filterTypeMap,
         id,
@@ -144,8 +156,24 @@ export const useCategory = props => {
         search
     ]);
 
+    const totalPagesFromData = data
+        ? data.products.page_info.total_pages
+        : null;
+
+    useEffect(() => {
+        setTotalPages(totalPagesFromData);
+        return () => {
+            setTotalPages(null);
+        };
+    }, [setTotalPages, totalPagesFromData]);
+
     // If we get an error after loading we should try to reset to page 1.
     // If we continue to have errors after that, render an error message.
+    useEffect(() => {
+        if (error && !categoryLoading && !data && currentPage !== 1) {
+            setCurrentPage(1);
+        }
+    }, [currentPage, error, categoryLoading, setCurrentPage, data]);
 
     // Reset the current page back to one (1) when the search string, filters
     // or sort criteria change.
@@ -164,17 +192,12 @@ export const useCategory = props => {
                 currentSort.sortDirection.toString()
         ) {
             // The search term changed.
+            setCurrentPage(1, true);
             // And update the ref.
             previousSearch.current = search;
             previousSort.current = currentSort;
         }
-    }, [currentSort, previousSearch, search]);
-
-    useEffect(()=>{
-        if (data){
-            setCategoryProductsItems(prevCategoryProductsItems =>  [...prevCategoryProductsItems, ...data.products.items])
-        }
-    }, [data]);
+    }, [currentSort, previousSearch, search, setCurrentPage]);
 
     const categoryData = categoryLoading && !data ? null : data;
     const categoryNotFound =
@@ -192,44 +215,16 @@ export const useCategory = props => {
         (categoryLoading && !data) ||
         introspectionLoading;
 
-    const handleLoadMore = () => {
-        if (!filterTypeMap.size || !pageSize) {
-            return;
-        }
-
-        const currentPage = page + 1;
-        const filters = getFiltersFromSearch(search);
-
-        const newFilters = {};
-        filters.forEach((values, key) => {
-            newFilters[key] = getFilterInput(values, filterTypeMap.get(key));
-        });
-
-        newFilters['category_uid'] = {eq: id};
-        runQuery({
-            variables: {
-                currentPage: currentPage,
-                id: id,
-                filters: newFilters,
-                pageSize: Number(pageSize),
-                sort: {[currentSort.sortAttribute]: currentSort.sortDirection}
-            }
-        });
-        setPage(currentPage);
-    };
-
-    const isLoadMoreAvailable = data?.products.page_info.total_pages !== page;
+    useScrollTopOnChange(currentPage);
 
     return {
         error,
         categoryData,
         loading,
-        categoryProductsItems,
         metaDescription,
+        pageControl,
         sortProps,
         pageSize,
-        categoryNotFound,
-        handleLoadMore,
-        isLoadMoreAvailable
+        categoryNotFound
     };
 };
