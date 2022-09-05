@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, {Fragment} from 'react';
 import { shape, string } from 'prop-types';
 import { useCategory } from '@magento/peregrine/lib/talons/RootComponents/Category';
 import { useStyle } from '@magento/venia-ui/lib/classify';
@@ -31,16 +31,18 @@ const Category = props => {
         metaDescription,
         loading,
         categoryData,
-        pageControl,
+        categoryProductsItems,
         sortProps,
         pageSize,
-        categoryNotFound
+        categoryNotFound,
+        handleLoadMore,
+        isLoadMoreAvailable
     } = talonProps;
 
     const classes = useStyle(defaultClasses, props.classes);
 
     if (!categoryData) {
-        if (error && pageControl.currentPage === 1) {
+        if (error) {
             if (process.env.NODE_ENV !== 'production') {
                 console.error(error);
             }
@@ -59,6 +61,7 @@ const Category = props => {
         );
     }
 
+
     return (
         <Fragment>
             <Meta name="description" content={metaDescription} />
@@ -67,9 +70,11 @@ const Category = props => {
                 classes={classes}
                 data={categoryData}
                 isLoading={loading}
-                pageControl={pageControl}
                 sortProps={sortProps}
                 pageSize={pageSize}
+                productsItems={categoryProductsItems}
+                isLoadMoreAvailable={isLoadMoreAvailable}
+                handleLoadMore={handleLoadMore}
             />
         </Fragment>
     );

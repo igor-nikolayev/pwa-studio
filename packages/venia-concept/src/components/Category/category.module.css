@@ -127,6 +127,12 @@
     margin: 20px auto;
 }
 
+.buttonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
 
 @media (max-width: 639px) {
     .items {

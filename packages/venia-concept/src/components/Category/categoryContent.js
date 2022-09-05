@@ -1,4 +1,4 @@
-import React, {Fragment, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import React, {Fragment, Suspense, useEffect, useMemo, useRef, useState} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { array, number, shape, string } from 'prop-types';
 
@@ -17,13 +17,13 @@ import FilterModalOpenButton, {
 import { FilterSidebarShimmer } from '@magento/venia-ui/lib/components/FilterSidebar';
 import Gallery, { GalleryShimmer } from '../Gallery';
 import { StoreTitle } from '@magento/venia-ui/lib/components/Head';
-import Pagination from '@magento/venia-ui/lib/components/Pagination';
 import ProductSort, { ProductSortShimmer } from '@magento/venia-ui/lib/components/ProductSort';
 import RichContent from '@magento/venia-ui/lib/components/RichContent';
 import Shimmer from '@magento/venia-ui/lib/components/Shimmer';
 import SortedByContainer, {
     SortedByContainerShimmer
 } from '@magento/venia-ui/lib/components/SortedByContainer';
+import Button from "@magento/venia-ui/lib/components/Button";
 import defaultClasses from './category.module.css';
 import NoProductsFound from '@magento/venia-ui/lib/RootComponents/Category/NoProductsFound';
 
@@ -39,13 +39,17 @@ const CategoryContent = props => {
         isLoading,
         pageControl,
         sortProps,
-        pageSize
+        pageSize,
+        productsItems,
+        isLoadMoreAvailable,
+        handleLoadMore
     } = props;
     const [currentSort] = sortProps;
 
     const talonProps = useCategoryContent({
         categoryId,
         data,
+        productsItems,
         pageSize
     });
 
@@ -145,25 +149,28 @@ const CategoryContent = props => {
         }
 
         const gallery = totalPagesFromData ? (
-            <Gallery items={items} classes={classes}/>
+            <Fragment>
+                <Gallery items={items} classes={classes}/>
+                {isLoadMoreAvailable && (
+                    <div className={classes.buttonWrapper}>
+                        <Button onClick={handleLoadMore} priority={"high"}>
+                            Load more
+                        </Button>
+                    </div>
+                )}
+            </Fragment>
         ) : (
             <GalleryShimmer items={items} />
         );
 
-        const pagination = totalPagesFromData ? (
-            <Pagination pageControl={pageControl} />
-        ) : null;
-
         return (
             <Fragment>
                 <section className={classes.gallery} ref={sectionRef}>{gallery}</section>
-                <div className={classes.pagination}>{pagination}</div>
             </Fragment>
         );
     }, [
         categoryId,
         classes.gallery,
-        classes.pagination,
         isLoading,
         items,
         pageControl,
