@@ -1,4 +1,4 @@
-import React, { useMemo, Fragment, Suspense } from 'react';
+import React, {useMemo, Fragment, Suspense} from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
 import { Form } from 'informed';
@@ -18,6 +18,7 @@ import RichContent from '@magento/venia-ui/lib/components/RichContent/richConten
 import { ProductOptionsShimmer } from '@magento/venia-ui/lib/components/ProductOptions';
 import CustomAttributes from '@magento/venia-ui/lib/components/ProductFullDetail/CustomAttributes';
 import defaultClasses from '@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css';
+import {useToasts} from "@magento/peregrine";
 
 const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 const Options = React.lazy(() => import('@magento/venia-ui/lib/components/ProductOptions'));
@@ -52,11 +53,10 @@ const ProductFullDetail = props => {
         mediaGalleryEntries,
         productDetails,
         customAttributes,
-        wishlistButtonProps
+        wishlistButtonProps,
     } = talonProps;
 
     const { formatMessage } = useIntl();
-
     const classes = useStyle(defaultClasses, props.classes);
 
     const options = isProductConfigurable(product) ? (
