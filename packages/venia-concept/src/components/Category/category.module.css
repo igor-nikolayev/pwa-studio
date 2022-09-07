@@ -1,0 +1,141 @@
+.root {
+    composes: p-xs from global;
+}
+
+.title {
+    composes: font-normal from global;
+    composes: px-2xs from global;
+    composes: py-0 from global;
+    composes: text-xl from global;
+}
+
+.pagination {
+    composes: relative from global;
+    composes: bottom-0 from global;
+}
+
+.placeholder {
+    composes: h-screen from global;
+}
+
+.categoryTitle {
+    composes: font-light from global;
+    composes: leading-snug from global;
+    composes: pb-xs from global;
+    composes: text-colorDefault from global;
+    composes: text-center from global;
+    composes: text-xl from global;
+}
+
+.heading {
+    composes: flex from global;
+    composes: flex-wrap from global;
+    composes: justify-center from global;
+    composes: pb-2xs from global;
+
+    composes: lg_flex-nowrap from global;
+    composes: lg_items-center from global;
+    composes: lg_justify-between from global;
+    composes: lg_pb-sm from global;
+    composes: lg_w-full from global;
+}
+
+.categoryContent {
+    composes: lg_flex-grow from global;
+}
+
+.categoryInfo {
+    flex-basis: 100%;
+    composes: leading-tight from global;
+    composes: max-w-[75vw] from global;
+    composes: mx-0 from global;
+    composes: my-xs from global;
+    composes: text-center from global;
+
+    composes: lg_m-0 from global;
+    composes: lg_text-left from global;
+}
+
+.headerButtons {
+    composes: flex from global;
+    composes: justify-center from global;
+    composes: pb-sm from global;
+    flex-basis: 100%;
+
+    composes: lg_justify-end from global;
+    composes: lg_pb-0 from global;
+}
+
+.contentWrapper {
+    composes: w-full from global;
+
+    composes: lg_flex from global;
+}
+
+.sidebar {
+    composes: hidden from global;
+
+    composes: lg_flex from global;
+    composes: lg_self-start from global;
+    composes: lg_pt-16 from global;
+    composes: lg_w-filterSidebarWidth from global;
+}
+
+.viewButtons {
+    display: flex;
+    gap: 15px;
+}
+
+.viewButton {
+    padding: 10px;
+    background: #eee;
+    transition: all ease .3s;
+}
+
+.viewButton:hover {
+    color: white;
+    background-color: #000;
+}
+
+.disabled {
+    color: white;
+    background-color: #000;
+    pointer-events: none;
+}
+
+.items {
+    composes: gap-xs from global;
+    composes: grid from global;
+    composes: mb-3 from global;
+    grid-area: items;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.categoryItem {
+    composes: content-start from global;
+    composes: grid from global;
+    composes: gap-y-2xs from global;
+    position: relative;
+}
+
+.galleryList .items {
+    display: block;
+}
+
+.galleryList .categoryItem{
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.buttonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+@media (max-width: 639px) {
+    .items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

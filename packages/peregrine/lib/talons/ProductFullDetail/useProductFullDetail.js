@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useToasts } from '@magento/peregrine';
 
 import { appendOptionsToPayload } from '@magento/peregrine/lib/util/appendOptionsToPayload';
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
@@ -245,6 +246,7 @@ export const useProductFullDetail = props => {
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
     const { formatMessage } = useIntl();
+    const [, { addToast }] = useToasts();
 
     const { data: storeConfigData } = useQuery(
         operations.getWishlistConfigQuery,
@@ -399,6 +401,7 @@ export const useProductFullDetail = props => {
                             await addConfigurableProductToCart({
                                 variables
                             });
+
                         } catch {
                             return;
                         }
@@ -452,10 +455,18 @@ export const useProductFullDetail = props => {
                             quantity
                         }
                     });
+
+                    addToast({
+                        message: formatMessage({ defaultMessage: 'You added product to your shopping cart', id: 'productFullDetail.success'}, { name: product.name }),
+                        onDismiss: remove => remove(),
+                        timeout: 5000,
+                        type: 'success'
+                    });
                 } catch {
                     return;
                 }
             }
+
         },
         [
             addConfigurableProductToCart,

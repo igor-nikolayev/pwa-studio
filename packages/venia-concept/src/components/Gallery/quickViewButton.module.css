@@ -1,0 +1,14 @@
+.root {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    z-index: 5;
+    height: 70px;
+    width: 70px;
+    background: #fff;
+    opacity: 0.9;
+}
