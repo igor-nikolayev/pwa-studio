@@ -242,11 +242,9 @@ export const useProductFullDetail = props => {
     const productType = product.__typename;
 
     const isSupportedProductType = isSupported(productType);
-
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
     const { formatMessage } = useIntl();
-    const [, { addToast }] = useToasts();
 
     const { data: storeConfigData } = useQuery(
         operations.getWishlistConfigQuery,
@@ -274,10 +272,20 @@ export const useProductFullDetail = props => {
             operations.addSimpleProductToCartMutation
     );
 
+    const [, { addToast }] = useToasts();
     const [
         addProductToCart,
-        { error: errorAddingProductToCart, loading: isAddProductLoading }
-    ] = useMutation(operations.addProductToCartMutation);
+        { error: errorAddingProductToCart, loading: isAddProductLoading}
+    ] = useMutation(operations.addProductToCartMutation, {
+        onCompleted: () => {
+            addToast({
+                message: formatMessage({ defaultMessage: 'You added product to your shopping cart', id: 'productFullDetail.success'}, { name: product.name }),
+                onDismiss: remove => remove(),
+                timeout: 5000,
+                type: 'success'
+            });
+        }
+    });
 
     const breadcrumbCategoryId = useMemo(
         () => getBreadcrumbCategoryId(product.categories),
@@ -454,13 +462,6 @@ export const useProductFullDetail = props => {
                             selectedOptions: selectedOptionsLabels,
                             quantity
                         }
-                    });
-
-                    addToast({
-                        message: formatMessage({ defaultMessage: 'You added product to your shopping cart', id: 'productFullDetail.success'}, { name: product.name }),
-                        onDismiss: remove => remove(),
-                        timeout: 5000,
-                        type: 'success'
                     });
                 } catch {
                     return;
