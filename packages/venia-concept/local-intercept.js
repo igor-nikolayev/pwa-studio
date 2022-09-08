@@ -33,6 +33,15 @@ function localIntercept(targets) {
             });
         return routes;
     });
+
+    const FilterDefault = require('@magento/venia-concept/core-overrides/components/filterDefaults');
+    FilterDefault(targets);
+
+    const FilterItem = require('@magento/venia-concept/core-overrides/components/filterItem');
+    FilterItem(targets)
+
+    const FilterList = require('@magento/venia-concept/core-overrides/components/filterList');
+    FilterList(targets)
 }
 
 module.exports = localIntercept;
