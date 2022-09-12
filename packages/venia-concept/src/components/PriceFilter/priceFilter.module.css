@@ -1,0 +1,18 @@
+.root {
+    padding-top: 30px;
+}
+
+:global .multi-range-slider{
+    box-shadow: none;
+    border: none;
+}
+
+:global .multi-range-slider .bar-inner {
+    background-color: #2954ff;
+    box-shadow: none;
+    border: none;
+}
+
+:global .multi-range-slider .thumb * {
+    display: block;
+}

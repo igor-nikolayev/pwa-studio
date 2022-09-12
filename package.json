@@ -52,6 +52,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "caniuse-lite": "~1.0.30001335",
+    "multi-range-slider-react": "^1.0.7",
     "swiper": "^8.3.2"
   },
   "devDependencies": {

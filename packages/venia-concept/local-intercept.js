@@ -38,10 +38,11 @@ function localIntercept(targets) {
     FilterDefault(targets);
 
     const FilterItem = require('@magento/venia-concept/core-overrides/components/filterItem');
-    FilterItem(targets)
+    FilterItem(targets);
 
-    const FilterList = require('@magento/venia-concept/core-overrides/components/filterList');
-    FilterList(targets)
+    const FilterBlock = require('@magento/venia-concept/core-overrides/components/filterBlock');
+    FilterBlock(targets)
+
 }
 
 module.exports = localIntercept;
